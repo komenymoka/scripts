@@ -15,7 +15,7 @@ if (recordBtn) {
   console.log('Button not found');
 }
 
-// Recording duration in milliseconds (configurable)
+// Recording duration in milliseconds
 const recordingDuration = 6300;
 
 // Function to get the best available WebM mimeType

@@ -49,8 +49,8 @@ function startRecording() {
   const internalHeight = canvas.height;
   const devicePixelRatio = window.devicePixelRatio || 1;
 
-  console.log(`Canvas CSS resolution: ${cssWidth}x${cssHeight}`);
-  console.log(`Canvas internal resolution: ${internalWidth}x${internalHeight} Device DPR: ${devicePixelRatio}`);
+  console.log(`Canvas CSS resolution: ${cssWidth}x${cssHeight}, Device DPR: ${devicePixelRatio} ->`);
+  console.log(`Canvas internal resolution: ${internalWidth}x${internalHeight}`);
   console.log(`Expected video resolution: ${cssWidth * devicePixelRatio}x${cssHeight * devicePixelRatio}`);
 
   // Recording options with the best mime type and video bitrate

@@ -1,8 +1,6 @@
-// Query for canvas and button elements
 const canvas = document.querySelector('canvas');
 const recordBtn = document.querySelector('button');
 
-// Log messages based on element presence
 if (canvas) {
   console.log('Canvas found');
 } else {
@@ -15,10 +13,8 @@ if (recordBtn) {
   console.log('Button not found');
 }
 
-// Recording duration in milliseconds
 const recordingDuration = 6300;
 
-// Function to get the best available WebM mimeType
 function getSupportedMimeType() {
   if (MediaRecorder.isTypeSupported('video/webm; codecs="vp9"')) {
     return { mimeType: 'video/webm; codecs="vp9"', extension: 'webm' };
@@ -29,11 +25,9 @@ function getSupportedMimeType() {
   }
 }
 
-// Start recording the canvas
 function startRecording() {
-  console.log('Button clicked'); // Log when button is clicked
+  console.log('Button clicked');
 
-  // Capture at 30 FPS
   const stream = canvas.captureStream(30); 
 
   const supportedFormat = getSupportedMimeType();
@@ -42,7 +36,6 @@ function startRecording() {
     return;
   }
 
-  // Log canvas dimensions and expected video resolution
   const cssWidth = parseInt(canvas.style.width);
   const cssHeight = parseInt(canvas.style.height);
   const internalWidth = canvas.width;
@@ -53,16 +46,14 @@ function startRecording() {
   console.log(`Canvas internal resolution: ${internalWidth}x${internalHeight}`);
   console.log(`Expected video resolution: ${cssWidth * devicePixelRatio}x${cssHeight * devicePixelRatio}`);
 
-  // Recording options with the best mime type and video bitrate
   const options = {
     mimeType: supportedFormat.mimeType,
-    videoBitsPerSecond: 10000000, // 10 Mbps bitrate
+    videoBitsPerSecond: 10000000,
   };
 
   const mediaRecorder = new MediaRecorder(stream, options);
   const chunks = [];
 
-  // Log when the recording starts
   mediaRecorder.onstart = () => {
     console.log('Recording started');
   };
@@ -73,36 +64,31 @@ function startRecording() {
     }
   };
 
-  // Log when the recording stops
   mediaRecorder.onstop = () => {
     console.log('Recording stopped');
 
     const blob = new Blob(chunks, { type: options.mimeType });
     const videoUrl = URL.createObjectURL(blob);
     
-    // Use the desired base name and extension based on the format
     const baseName = 'rive-recording';
-    const filename = `${baseName}.${supportedFormat.extension}`; // Formatted filename
+    const filename = `${baseName}.${supportedFormat.extension}`;
 
     const a = document.createElement('a');
     a.href = videoUrl;
-    a.download = filename; // Set the desired filename
+    a.download = filename;
     
-    // Trigger download using a click event on the anchor tag
-    document.body.appendChild(a); // Append to body to ensure the click is recognized
+    document.body.appendChild(a);
     a.click();
-    document.body.removeChild(a); // Clean up after download
+    document.body.removeChild(a);
   };
 
   mediaRecorder.start();
 
-  // Stop recording after the specified duration
   setTimeout(() => {
     mediaRecorder.stop();
   }, recordingDuration);
 }
 
-// Add event listener to the button if it exists
 if (recordBtn) {
   recordBtn.addEventListener('click', startRecording);
 }
